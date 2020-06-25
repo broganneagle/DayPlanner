@@ -5,14 +5,13 @@ var CurrentDay = moment().format();
 function getLocalStorage(key) {
     let value = localStorage.getItem(key);
     if (value) {
-        console.log('about to update', key, 'with this from local S', value);
         $(`#text${key}`).text(value);
     }
 }
 // function for currentday
 $(document).ready(function () {
     $("#currentDay").text(moment().format("dddd, MMMM Do YYYY"));
-    console.log('current time hour!!', moment().hours());
+    console.log('current time hour', moment().hours());
     var currentHour = moment().hours();
     for (let i = 9; i < 18; i++) {
         // row
@@ -36,7 +35,7 @@ $(document).ready(function () {
         } else if (currentHour > i) {
             c2.addClass("past");
         } else if (currentHour < i) {
-            c2.addClass('future')
+            c2.addClass("future")
         }
         row.append(c2);
 
@@ -50,4 +49,14 @@ $(document).ready(function () {
 
         getLocalStorage(i);
     }
-    })
+
+    //create save button
+    var saveBtn = $('.saveBtn');
+    saveBtn.on('click', function () {
+        let eventId = $(this).attr('id');
+        let eventText = $(this).siblings('.description').val();
+        console.log('Saving ' + eventText + ' to local storage at ' + eventId);
+        localStorage.setItem(eventId, eventText);
+    });
+
+});
